@@ -1,5 +1,5 @@
 {
-    "name": "題名未設定",
+    "name": "sgp30",
     "version": "0.0.1",
     "description": "",
     "dependencies": {
@@ -17,11 +17,11 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "7.0.40",
+        "target": "7.0.42",
         "targetId": "microbit"
     },
     "supportedTargets": [
         "microbit"
     ],
-    "preferredEditor": "tsprj"
+    "preferredEditor": "blocksprj"
 }
