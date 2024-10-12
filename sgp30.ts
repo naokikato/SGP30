@@ -39,6 +39,7 @@ namespace IML_SGP30 {
         return eCO2
     }
 
+
     //% block
     //% block="二酸化炭素センサの上閾値を $value に設定する"
     //% weight=90
@@ -96,4 +97,5 @@ namespace IML_SGP30 {
             }
         });
     }
+
 }
