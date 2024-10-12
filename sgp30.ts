@@ -39,28 +39,32 @@ namespace IML_SGP30 {
         return eCO2
     }
 
+    //% block
     //% block="二酸化炭素センサの上閾値を $value に設定する"
-    //% weight=90 color =#3fbc41
+    //% weight=90
     export function setCO2Sensor1(value: number) {
         threshold1 = value;
         startListening();
     }
 
+    //% block
     //% block="二酸化炭素センサの下閾値を $value に設定する"
-    //% weight=89 color =#3fbc41
+    //% weight=89
     export function setCO2Sensor2(value: number) {
         threshold2 = value;
         startListening();
     }
 
+    //% block
     //% block="二酸化炭素センサの出力が上閾値以上になったとき"
-    //% weight=88 color =#3fbc41
+    //% weight=88
     export function onLightDetected1(handler: () => void) {
         control.onEvent(CO2_EVENT_ID1, EventBusValue.MICROBIT_EVT_ANY, handler);
     }
 
+    //% block
     //% block="二酸化炭素センサの出力が下閾値以下になったとき"
-    //% weight=87 color =#3fbc41
+    //% weight=87
     export function onLightDetected2(handler: () => void) {
         control.onEvent(CO2_EVENT_ID2, EventBusValue.MICROBIT_EVT_ANY, handler);
     }
@@ -80,7 +84,6 @@ namespace IML_SGP30 {
                     // イベントを発生させる
                     control.raiseEvent(CO2_EVENT_ID1, co2Level);
                 }
-                else
                 if (co2Level <= threshold2) {
                     // イベントを発生させる
                     control.raiseEvent(CO2_EVENT_ID2, co2Level);
