@@ -4,24 +4,24 @@
 //% weight=100 color=#0fbc11 icon="" block="二酸化炭素センサ(SGP30)"
 namespace IML_SGP30 {
 
-    let CO2 = 0
     let eCO2 = 0
     let I2C_ADDR = 0x58
     let INIT_AIR_QUALITY = 0x2003
     let MEASURE_AIR_QUALITY = 0x2008
 
     //% block
-    //% block="二酸化炭素(ppm)"
+    //% block="二酸化炭素センサを初期化する"
     //% weight=100    
-    export function getCO2(): number {
-        return measureAirQuality()
-    }
-
-    // SGP30を初期化する関数
-    function initializeSGP30() 
-    {
+    export function initializeSGP30() {
         pins.i2cWriteNumber(I2C_ADDR, INIT_AIR_QUALITY, NumberFormat.UInt16BE)
         basic.pause(10) // 初期化待ち時間
+    }
+
+    //% block
+    //% block="二酸化炭素(ppm)"
+    //% weight=99    
+    export function getCO2(): number {
+        return measureAirQuality()
     }
 
     // CO2とTVOCデータを取得する関数
@@ -74,9 +74,13 @@ namespace IML_SGP30 {
     let threshold1 = 1000;
     let threshold2 = 400;
     let interval = 100;
+    let isListening = false
 
     // イベントリスナーの開始
     function startListening() {
+        if (isListening) return;
+        isListening = true;
+
         control.inBackground(() => {
             while (true) {
                 let co2Level = getCO2();
@@ -92,7 +96,4 @@ namespace IML_SGP30 {
             }
         });
     }
-
-    // main
-    initializeSGP30()
 }
