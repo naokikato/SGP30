@@ -1,7 +1,7 @@
 /**
  * Custom blocks
  */
-//% weight=100 color=#0fbc11 icon="" block="SGP30"
+//% weight=100 color=#0fbc11 icon="" block="二酸化炭素センサ(SGP30)"
 namespace IML_SGP30 {
 
     let CO2 = 0
@@ -11,7 +11,7 @@ namespace IML_SGP30 {
     let MEASURE_AIR_QUALITY = 0x2008
 
     //% block
-    //% block="二酸化炭素"
+    //% block="二酸化炭素(ppm)"
     //% weight=100    
     export function getCO2(): number {
         return measureAirQuality()
@@ -38,6 +38,58 @@ namespace IML_SGP30 {
         eCO2 = (result[0] << 8) | result[1]
         return eCO2
     }
- 
+
+    //% block="二酸化炭素センサの上閾値を $value に設定する"
+    //% weight=90 color =#3fbc41
+    export function setCO2Sensor1(value: number) {
+        threshold1 = value;
+        startListening();
+    }
+
+    //% block="二酸化炭素センサの下閾値を $value に設定する"
+    //% weight=89 color =#3fbc41
+    export function setCO2Sensor2(value: number) {
+        threshold2 = value;
+        startListening();
+    }
+
+    //% block="二酸化炭素センサの出力が上閾値以上になったとき"
+    //% weight=88 color =#3fbc41
+    export function onLightDetected1(handler: () => void) {
+        control.onEvent(CO2_EVENT_ID1, EventBusValue.MICROBIT_EVT_ANY, handler);
+    }
+
+    //% block="二酸化炭素センサの出力が下閾値以下になったとき"
+    //% weight=87 color =#3fbc41
+    export function onLightDetected2(handler: () => void) {
+        control.onEvent(CO2_EVENT_ID2, EventBusValue.MICROBIT_EVT_ANY, handler);
+    }
+
+    const CO2_EVENT_ID1 = 1001;
+    const CO2_EVENT_ID2 = 1002;
+    let threshold1 = 1000;
+    let threshold2 = 400;
+    let interval = 100;
+
+    // イベントリスナーの開始
+    function startListening() {
+        control.inBackground(() => {
+            while (true) {
+                let co2Level = getCO2();
+                if (co2Level >= threshold1) {
+                    // イベントを発生させる
+                    control.raiseEvent(CO2_EVENT_ID1, co2Level);
+                }
+                else
+                if (co2Level <= threshold2) {
+                    // イベントを発生させる
+                    control.raiseEvent(CO2_EVENT_ID2, co2Level);
+                }
+                basic.pause(interval);
+            }
+        });
+    }
+
+    // main
     initializeSGP30()
 }

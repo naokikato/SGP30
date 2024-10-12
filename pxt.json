@@ -1,7 +1,7 @@
 {
     "name": "sgp30",
     "version": "0.0.2",
-    "description": "",
+    "description": "GROVE 二酸化炭素センサ （VOC and eCO2 Gas Sensor (SGP30) v1.0）",
     "dependencies": {
         "core": "*",
         "radio": "*",
@@ -17,7 +17,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "7.0.42",
+        "target": "7.0.51",
         "targetId": "microbit"
     },
     "supportedTargets": [
